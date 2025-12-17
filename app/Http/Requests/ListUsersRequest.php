@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\Rule;
 
 class ListUsersRequest extends FormRequest
@@ -48,5 +50,18 @@ class ListUsersRequest extends FormRequest
             'sortBy' => $validated['sortBy'] ?? 'created_at',
             'sortDirection' => $validated['sortDirection'] ?? 'desc',
         ];
+    }
+
+    /**
+     * Ensure validation errors return JSON 422 instead of a redirect.
+     */
+    protected function failedValidation(Validator $validator): void
+    {
+        throw new HttpResponseException(
+            response()->json([
+                'message' => 'The given data was invalid.',
+                'errors' => $validator->errors(),
+            ], 422)
+        );
     }
 }

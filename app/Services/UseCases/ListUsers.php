@@ -6,7 +6,7 @@ use App\Services\Contracts\CurrentUserProvider;
 use App\Services\Contracts\OrderReadRepository;
 use App\Services\Contracts\UserRepository;
 use App\Services\Support\UserPermissionService;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class ListUsers
 {
@@ -31,9 +31,7 @@ class ListUsers
     {
         $paginator = $this->users->searchActiveUsers($filters);
 
-        $collection = method_exists($paginator, 'getCollection')
-            ? $paginator->getCollection()
-            : collect($paginator->items());
+        $collection = $paginator->getCollection();
         $userIds = $collection->pluck('id')->all();
 
         $orderCounts = $userIds ? $this->orderReads->getCountsForUsers($userIds) : [];

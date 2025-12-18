@@ -1,5 +1,7 @@
 ## PHP Code Test - Andry Rachdian Sumardi
 
+Laravel Version : 12
+
 The goal is to show code clarity, structure, naming, and maintainability. 
 
 ### Implementation
@@ -25,6 +27,8 @@ The goal is to show code clarity, structure, naming, and maintainability.
 ### Auth
 
 - Using Laravel Sanctum personal access tokens.
+
+- Token generated in `php artisan tinker` to be used in bearer token requests, the purpose is for testting the functionality of role control.
 
 ### Notes
 
